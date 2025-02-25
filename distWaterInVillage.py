@@ -39,3 +39,49 @@ class Solution:
         
         return result
 
+# Primms algorith// Heap based logic // O((m+n)log(m))/ O(m+n)
+
+import heapq
+class Solution:
+    def minCostToSupplyWater(self, n: int, wells: List[int], pipes: List[List[int]]) -> int:
+
+        # add pipe eges and then add well edges as 0
+        edges = []
+        for pipe in pipes:                      # add edges
+            edges.append(pipe)
+        
+        for i in range(1,n+1):                  # 0 as edges
+            edges.append([0,i,wells[i-1]])
+
+        # store adjacency list
+        hmap = {}        
+        for edge in edges:
+            if edge[0] not in hmap:
+                hmap[edge[0]] = []
+            if edge[1] not in hmap:
+                hmap[edge[1]] = []
+            hmap[edge[0]].append((edge[2],edge[1]))
+            hmap[edge[1]].append((edge[2],edge[0]))                
+
+
+        # create a priority queue // COST ALWAYS GOES FIRST IN PQ SINCE IT DETERMINES ORDER
+        pq = []
+        heapq.heappush(pq,(0,0))
+        result = 0
+        visited = [False] * (n+1)
+
+        while pq:
+            cost,node = heapq.heappop(pq)
+
+            if visited[node]:
+                continue
+            
+            visited[node] = True    
+            result += cost
+
+            for cost, ne in hmap[node]:
+                if not visited[ne]:
+                    heapq.heappush(pq, (cost, ne)) 
+
+
+        return result

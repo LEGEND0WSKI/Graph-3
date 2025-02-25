@@ -3,10 +3,6 @@
 # Leetcode: Yes
 # Issues: Taking too long in python
 
-
-
-
-
 # O(n) soln 834 ms
 class Solution:
     def findCelebrity(self, n: int) -> int:
